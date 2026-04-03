@@ -1,0 +1,61 @@
+[
+  {
+    "title": "FRUIT & VEGETABLES",
+    "items": [
+      "Fresh Vegetables",
+      "Herbs & Seasonings",
+      "Fresh Fruits",
+      "Cuts & Sprouts",
+      "Exotic Fruits & Veggies",
+      "Packaged Produce",
+      "Party Trays"
+    ]
+  },
+  {
+    "title": "BREAKFAST & DAIRY",
+    "items": [
+      "Milk & Flavoured Milk",
+      "Butter and Margarine",
+      "Cheese",
+      "Eggs Substitutes",
+      "Honey",
+      "Marmalades",
+      "Sour Cream and Dips",
+      "Yogurt"
+    ]
+  },
+  {
+    "title": "MEAT & SEAFOOD",
+    "items": [
+      "Breakfast Sausage",
+      "Dinner Sausage",
+      "Beef",
+      "Chicken",
+      "Shrimp",
+      "Crab and Shellfish",
+      "Farm Raised Fillets"
+    ]
+  },
+  {
+    "title": "BEVERAGES",
+    "items": [
+      "Water",
+      "Sparkling Water",
+      "Soda & Pop",
+      "Coffee",
+      "Tea & Kombucha",
+      "Craft Beer",
+      "Wine"
+    ]
+  },
+  {
+    "title": "BREADS & BAKERY",
+    "items": [
+      "Bread",
+      "Butter",
+      "Cheese",
+      "Honey",
+      "Yogurt"
+    ]
+  }
+]

@@ -1,0 +1,42 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  animation: slideDown 1s ease;
+}
+
+.logo {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  transition: transform 0.3s, color 0.3s;
+}
+
+a:hover {
+  color: yellow;
+  transform: scale(1.1);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
