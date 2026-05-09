@@ -1,4 +1,4 @@
-import "./App.css";
+
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Listing from "./pages/Home/Listing";
@@ -14,7 +14,7 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminProducts from "./pages/admin/AdminProducts";
-
+import "./styles/App.css";
 function App() {
   const location = useLocation();
   const isRider = location.pathname === "/rider";

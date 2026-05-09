@@ -7,99 +7,62 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 
 const ProductModal = ({ open, handleClose, product }) => {
-  const [qty, setQty] = useState(1);
+  const [qty,       setQty]       = useState(1);
   const [activeImg, setActiveImg] = useState(product?.img);
 
   if (!product) return null;
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogContent sx={{ display: "flex", gap: 4 }}>
+      <DialogContent className="pm-dialog-content">
 
-        {/* LEFT IMAGE SECTION */}
-        <div style={{ flex: 1 }}>
-          <img
-            src={activeImg}
-            style={{ width: "100%", borderRadius: 10 }}
-            alt=""
-          />
-
-          <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+        {/* ── LEFT: IMAGE SECTION ── */}
+        <div className="pm-image-section">
+          <img src={activeImg} className="pm-main-image" alt={product.name} />
+          <div className="pm-thumb-row">
             {[product.img, product.img, product.img].map((img, i) => (
               <img
                 key={i}
                 src={img}
                 onClick={() => setActiveImg(img)}
-                style={{
-                  width: 70,
-                  borderRadius: 6,
-                  cursor: "pointer",
-                  border: activeImg === img ? "2px solid #2e7d32" : "1px solid #ddd"
-                }}
+                className={`pm-thumb ${activeImg === img ? "pm-thumb-active" : ""}`}
+                alt=""
               />
             ))}
           </div>
         </div>
 
-        {/* RIGHT INFO SECTION */}
-        <div style={{ flex: 1 }}>
-
-          <h2>{product.name}</h2>
-
+        {/* ── RIGHT: INFO SECTION ── */}
+        <div className="pm-info-section">
+          <h2 className="pm-product-name">{product.name}</h2>
           <Rating value={product.rating} readOnly />
 
-          <h3 style={{ color: "#d32f2f" }}>
+          <h3 className="pm-price">
             {product.price}
-            <span style={{
-              marginLeft: 10,
-              textDecoration: "line-through",
-              color: "#999",
-              fontSize: 16
-            }}>
-              {product.old}
-            </span>
+            <span className="pm-old-price">{product.old}</span>
           </h3>
 
-          <span style={{
-            background: "#e8f5e9",
-            padding: "4px 10px",
-            borderRadius: 20,
-            fontSize: 12
-          }}>
-            IN STOCK
-          </span>
+          <span className="pm-stock-badge">IN STOCK</span>
 
-          <p style={{ marginTop: 15, color: "#666" }}>
+          <p className="pm-description">
             Fresh organic grocery product delivered instantly at your doorstep.
           </p>
 
-          {/* QUANTITY */}
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            marginTop: 15
-          }}>
-            <button onClick={() => qty > 1 && setQty(qty - 1)}>−</button>
-            <strong>{qty}</strong>
-            <button onClick={() => setQty(qty + 1)}>+</button>
+          {/* Quantity */}
+          <div className="pm-qty-row">
+            <button className="pm-qty-btn" onClick={() => qty > 1 && setQty(qty - 1)}>−</button>
+            <strong className="pm-qty-value">{qty}</strong>
+            <button className="pm-qty-btn" onClick={() => setQty(qty + 1)}>+</button>
           </div>
 
-          {/* ADD CART */}
-          <Button
-            variant="contained"
-            sx={{ mt: 3, background: "#2e7d32", padding: "10px 30px" }}
-          >
+          {/* Add to Cart */}
+          <Button variant="contained" className="pm-add-cart-btn">
             Add to Cart
           </Button>
-
         </div>
 
-        {/* CLOSE */}
-        <IconButton
-          onClick={handleClose}
-          sx={{ position: "absolute", right: 10, top: 10 }}
-        >
+        {/* ── CLOSE BUTTON ── */}
+        <IconButton onClick={handleClose} className="pm-close-btn">
           <CloseIcon />
         </IconButton>
 

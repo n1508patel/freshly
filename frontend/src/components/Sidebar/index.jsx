@@ -29,21 +29,21 @@ const Sidebar = ({
   priceRange, setPriceRange
 }) => {
 
-  // ✅ Toggle category
+  //  Toggle category
   const toggleCategory = (cat) => {
     setSelectedCategories(prev =>
       prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
     );
   };
 
-  // ✅ Toggle availability
+  //  Toggle availability
   const toggleAvailability = (val) => {
     setSelectedAvailability(prev =>
       prev.includes(val) ? prev.filter(a => a !== val) : [...prev, val]
     );
   };
 
-  // ✅ Toggle brand
+  //  Toggle brand
   const toggleBrand = (brand) => {
     setSelectedBrands(prev =>
       prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]

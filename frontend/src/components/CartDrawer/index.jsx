@@ -54,113 +54,113 @@ export default function CartDrawer({ open, onClose }) {
 
   return (
     <>
-      {/* OVERLAY */}
-      <div onClick={onClose} style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.4)", zIndex: 1000 }} />
+      {/* Overlay */}
+      <div onClick={onClose} className="cart-drawer-overlay" />
 
-      {/* DRAWER */}
-      <div style={{
-        position: "fixed", top: 0, right: 0,
-        width: "420px", height: "100vh",
-        backgroundColor: "white", zIndex: 1001,
-        display: "flex", flexDirection: "column",
-        boxShadow: "-4px 0 24px rgba(0,0,0,0.12)",
-      }}>
+      {/* Drawer */}
+      <div className="cart-drawer">
 
-        {/* HEADER */}
-        <div style={{ padding: "16px 20px", borderBottom: "1px solid #f0f0f0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ margin: 0, fontSize: "18px", fontWeight: "700" }}>Cart ({totalItems} items)</h2>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer" }}>
+        {/* Header */}
+        <div className="cart-drawer-header">
+          <h2 className="cart-drawer-title">
+            Cart ({totalItems} items)
+          </h2>
+          <button onClick={onClose} className="cart-drawer-close-btn">
             <CloseIcon />
           </button>
         </div>
 
-        {/* USER INFO STRIP — show if logged in */}
+        {/* User Info Strip — show if logged in */}
         {user && (
-          <div style={{
-            padding: "10px 20px", backgroundColor: "#f0fdf4",
-            borderBottom: "1px solid #bbf7d0",
-            display: "flex", alignItems: "center", gap: "10px",
-          }}>
-            <div style={{
-              width: "32px", height: "32px", borderRadius: "50%",
-              backgroundColor: "#16a34a", color: "white",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "14px", fontWeight: "700", flexShrink: 0,
-            }}>
+          <div className="cart-user-strip">
+            <div className="cart-user-avatar">
               {user.name?.[0]?.toUpperCase() || "U"}
             </div>
             <div>
-              <p style={{ margin: 0, fontSize: "13px", fontWeight: "600", color: "#15803d" }}>
+              <p className="cart-user-name">
                  Hey, {user.name || "there"}!
               </p>
-              <p style={{ margin: 0, fontSize: "11px", color: "#16a34a" }}>{user.email || user.mobile}</p>
+              <p className="cart-user-email">
+                {user.email || user.mobile}
+              </p>
             </div>
           </div>
         )}
 
-        {/* NOT LOGGED IN STRIP */}
+        {/* Not Logged In Strip */}
         {!user && cart.length > 0 && (
-          <div style={{
-            padding: "10px 20px", backgroundColor: "#fff7ed",
-            borderBottom: "1px solid #fed7aa",
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-          }}>
-            <p style={{ margin: 0, fontSize: "12px", color: "#ea580c" }}>
+          <div className="cart-not-logged-strip">
+            <p className="cart-not-logged-text">
               Login to checkout & save your orders
             </p>
             <button
               onClick={() => setShowAuth(true)}
-              style={{
-                padding: "4px 12px", backgroundColor: "#ea580c", color: "white",
-                border: "none", borderRadius: "6px", fontSize: "12px",
-                fontWeight: "600", cursor: "pointer",
-              }}
+              className="cart-login-btn"
             >
               Login
             </button>
           </div>
         )}
 
-        {/* CART ITEMS */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px" }}>
+        {/* Cart Items */}
+        <div className="cart-items-container">
           {cart.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "60px 0", color: "#888" }}>
-              <div style={{ fontSize: "48px", marginBottom: "12px" }}></div>
-              <p style={{ fontSize: "16px" }}>Your cart is empty</p>
-              <p style={{ fontSize: "13px", color: "#aaa" }}>Add items to get started!</p>
+            <div className="cart-empty">
+              <div className="cart-empty-icon">🛒</div>
+              <p className="cart-empty-title">Your cart is empty</p>
+              <p className="cart-empty-subtitle">Add items to get started!</p>
             </div>
           ) : (
             cart.map((item) => (
-              <div key={item._id} style={{
-                display: "flex", gap: "12px", alignItems: "center",
-                padding: "12px 0", borderBottom: "1px solid #f5f5f5",
-              }}>
+              <div key={item._id} className="cart-item">
                 <img
                   src={item.imgs?.[0] || item.image}
                   alt={item.name}
-                  style={{ width: "64px", height: "64px", objectFit: "contain", borderRadius: "8px", backgroundColor: "#f9fafb" }}
+                  className="cart-item-image"
                 />
-                <div style={{ flex: 1 }}>
-                  <p style={{ margin: "0 0 2px", fontSize: "13px", fontWeight: "600", color: "#1a1a1a" }}>{item.name}</p>
-                  {item.brand && <p style={{ margin: "0 0 4px", fontSize: "11px", color: "#aaa" }}>{item.brand}</p>}
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <p style={{ margin: 0, fontSize: "14px", fontWeight: "700", color: "#16a34a" }}>${Number(item.price).toFixed(2)}</p>
-                    {item.old && <p style={{ margin: 0, fontSize: "11px", color: "#aaa", textDecoration: "line-through" }}>${item.old}</p>}
+                <div className="cart-item-info">
+                  <p className="cart-item-name">{item.name}</p>
+                  {item.brand && <p className="cart-item-brand">{item.brand}</p>}
+                  <div className="cart-item-price-row">
+                    <p className="cart-item-price">
+                      ${Number(item.price).toFixed(2)}
+                    </p>
+                    {item.old && (
+                      <p className="cart-item-old-price">
+                        ${item.old}
+                      </p>
+                    )}
                   </div>
-                  <p style={{ margin: "2px 0 0", fontSize: "11px", color: "#888" }}>
+                  <p className="cart-item-subtotal">
                     Subtotal: ${(Number(item.price) * item.qty).toFixed(2)}
                   </p>
                 </div>
 
-                {/* QTY CONTROLS */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <button onClick={() => updateQty(item._id, item.qty - 1)} style={{ width: "28px", height: "28px", border: "1px solid #e5e7eb", borderRadius: "6px 0 0 6px", background: "#f9fafb", fontSize: "16px", cursor: "pointer", fontWeight: "700" }}>−</button>
-                    <span style={{ width: "32px", height: "28px", border: "1px solid #e5e7eb", borderLeft: "none", borderRight: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: "600" }}>{item.qty}</span>
-                    <button onClick={() => updateQty(item._id, item.qty + 1)} style={{ width: "28px", height: "28px", border: "1px solid #e5e7eb", borderRadius: "0 6px 6px 0", background: "#f9fafb", fontSize: "16px", cursor: "pointer", fontWeight: "700" }}>+</button>
+                {/* Quantity Controls */}
+                <div className="cart-qty-controls">
+                  <div className="cart-qty-buttons">
+                    <button
+                      onClick={() => updateQty(item._id, item.qty - 1)}
+                      className="cart-qty-btn"
+                    >
+                      −
+                    </button>
+                    <span className="cart-qty-display">
+                      {item.qty}
+                    </span>
+                    <button
+                      onClick={() => updateQty(item._id, item.qty + 1)}
+                      className="cart-qty-btn"
+                    >
+                      +
+                    </button>
                   </div>
-                  <button onClick={() => removeFromCart(item._id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#ef4444", fontSize: "11px", display: "flex", alignItems: "center", gap: "2px" }}>
-                    <DeleteOutlineIcon style={{ fontSize: "14px" }} /> Remove
+                  <button
+                    onClick={() => removeFromCart(item._id)}
+                    className="cart-remove-btn"
+                  >
+                    <DeleteOutlineIcon style={{ fontSize: "14px" }} />
+                    Remove
                   </button>
                 </div>
               </div>
@@ -168,59 +168,70 @@ export default function CartDrawer({ open, onClose }) {
           )}
         </div>
 
-        {/* BOTTOM SECTION */}
+        {/* Bottom Section */}
         {cart.length > 0 && (
-          <div style={{ borderTop: "1px solid #f0f0f0", padding: "16px 20px" }}>
+          <div className="cart-bottom-section">
 
-            {/* COUPON */}
-            <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
+            {/* Coupon */}
+            <div className="cart-coupon-container">
               <input
                 value={coupon}
                 onChange={(e) => setCoupon(e.target.value)}
                 placeholder="Coupon code (FRESH10, SAVE20...)"
-                style={{ flex: 1, padding: "8px 12px", border: "1px solid #e5e7eb", borderRadius: "8px", fontSize: "12px", outline: "none" }}
+                className="cart-coupon-input"
               />
-              <button onClick={applyCoupon} style={{ padding: "8px 14px", backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "8px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}>
+              <button onClick={applyCoupon} className="cart-coupon-btn">
                 Apply
               </button>
             </div>
-            {couponMsg && <p style={{ fontSize: "12px", color: discount > 0 ? "#16a34a" : "#ef4444", margin: "0 0 10px" }}>{couponMsg}</p>}
+            {couponMsg && (
+              <p className={`cart-coupon-msg ${discount > 0 ? "success" : "error"}`}>
+                {couponMsg}
+              </p>
+            )}
 
-            {/* BILL SUMMARY */}
-            <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "12px", marginBottom: "12px" }}>
-              <p style={{ margin: "0 0 8px", fontSize: "13px", fontWeight: "700", color: "#1a1a1a" }}>Bill Summary</p>
+            {/* Bill Summary */}
+            <div className="cart-bill-summary">
+              <p className="cart-bill-title">Bill Summary</p>
               {[
                 { label: `Items (${totalItems})`, value: `${subtotal.toFixed(2)}` },
                 { label: "Tax (5%)", value: `${tax.toFixed(2)}` },
-                { label: subtotal > 500 ? "Delivery  FREE" : "Delivery", value: subtotal > 500 ? "$0.00" : `$${DELIVERY}.00` },
-                ...(discount > 0 ? [{ label: "Coupon Discount", value: `-$${discount.toFixed(2)}`, green: true }] : []),
+                {
+                  label: subtotal > 500 ? "Delivery  FREE" : "Delivery",
+                  value: subtotal > 500 ? "$0.00" : `$${DELIVERY}.00`,
+                },
+                ...(discount > 0
+                  ? [{ label: "Coupon Discount", value: `-$${discount.toFixed(2)}`, green: true }]
+                  : []),
               ].map((row, i) => (
-                <div key={i} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: row.green ? "#16a34a" : "#666", marginBottom: "4px" }}>
-                  <span>{row.label}</span><span>{row.value}</span>
+                <div key={i} className={`cart-bill-row ${row.green ? "green" : ""}`}>
+                  <span>{row.label}</span>
+                  <span>{row.value}</span>
                 </div>
               ))}
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "15px", fontWeight: "700", color: "#1a1a1a", borderTop: "1px solid #e5e7eb", paddingTop: "8px", marginTop: "4px" }}>
-                <span>Total</span><span>${Math.max(total, 0).toFixed(2)}</span>
+              <div className="cart-bill-total">
+                <span>Total</span>
+                <span>${Math.max(total, 0).toFixed(2)}</span>
               </div>
             </div>
 
             {subtotal > 0 && subtotal < 500 && (
-              <p style={{ fontSize: "11px", color: "#f59e0b", marginBottom: "10px", textAlign: "center" }}>
+              <p className="cart-free-delivery-msg">
                  Add ${(500 - subtotal).toFixed(2)} more for FREE delivery!
               </p>
             )}
 
-            {/* CHECKOUT BUTTON */}
+            {/* Checkout Button */}
             <button
               onClick={handleCheckout}
-              style={{ width: "100%", padding: "13px", backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "12px", fontSize: "15px", fontWeight: "700", cursor: "pointer" }}
+              className="cart-checkout-btn"
             >
               {user ? "Proceed to Checkout →" : " Login to Checkout"}
             </button>
 
             <button
               onClick={clearCart}
-              style={{ width: "100%", padding: "10px", marginTop: "8px", backgroundColor: "white", color: "#ef4444", border: "1px solid #ef4444", borderRadius: "12px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}
+              className="cart-clear-btn"
             >
               Clear Cart
             </button>
@@ -228,7 +239,7 @@ export default function CartDrawer({ open, onClose }) {
         )}
       </div>
 
-      {/* LOGIN POPUP — shows when not logged in and clicks checkout */}
+      {/* Login Popup */}
       {showAuth && (
         <AuthModal
           close={() => setShowAuth(false)}
@@ -241,7 +252,7 @@ export default function CartDrawer({ open, onClose }) {
         />
       )}
 
-      {/* CHECKOUT MODAL */}
+      {/* Checkout Modal */}
       {showCheckout && (
         <CheckoutModal
           total={Math.max(total, 0)}

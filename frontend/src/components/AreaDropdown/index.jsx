@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -28,7 +29,7 @@ export default function AreaDropdown() {
   const [gpsLoading, setGpsLoading] = useState(false);
   const [markerPos, setMarkerPos] = useState([21.1702, 72.8311]);
   const [showMap, setShowMap] = useState(false);
-  const [saving, setSaving] = useState(false); 
+  const [saving, setSaving] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -97,7 +98,6 @@ export default function AreaDropdown() {
     );
   };
 
-  
   const handleConfirmDelivery = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -132,108 +132,79 @@ export default function AreaDropdown() {
   };
 
   return (
-    <div ref={dropdownRef} style={{ position: "relative", zIndex: 1000 }}>
+    <div ref={dropdownRef} className="area-dropdown-wrapper">
 
-      
-      <div onClick={() => setIsOpen(!isOpen)} style={{ cursor: "pointer", minWidth: "140px" }}>
-        <span style={{ fontSize: "10px", color: "#888", fontWeight: "600", textTransform: "uppercase", display: "block" }}>
-          YOUR LOCATION
-        </span>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <span style={{ color: "#16a34a", fontSize: "12px" }}></span>
-          <span style={{ fontSize: "13px", fontWeight: "700", color: "#16a34a" }}>
+      {/* Trigger Button */}
+      <div onClick={() => setIsOpen(!isOpen)} className="area-dropdown-trigger">
+        <span className="area-dropdown-label">YOUR LOCATION</span>
+        <div className="area-dropdown-display">
+          <span className="area-dropdown-location-icon"></span>
+          <span className="area-dropdown-text">
             {selectedArea ? selectedArea.name : "SELECT AREA"}
           </span>
-          <span style={{ fontSize: "11px", color: "#16a34a" }}>▼</span>
+          <span className="area-dropdown-arrow">▼</span>
         </div>
         {selectedArea && (
-          <span style={{ fontSize: "11px", color: "#888", display: "block" }}>{selectedArea.city}</span>
+          <span className="area-dropdown-city">{selectedArea.city}</span>
         )}
       </div>
 
-      
+      {/* Dropdown Menu */}
       {isOpen && (
-        <div style={{
-          position: "absolute", top: "110%", left: 0,
-          width: "380px", background: "white",
-          borderRadius: "16px", boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
-          border: "1px solid #e5e7eb", zIndex: 9999, overflow: "hidden"
-        }}>
+        <div className="area-dropdown-menu">
 
-          
-          <div style={{
-            padding: "14px 18px",
-            background: "linear-gradient(135deg, #16a34a, #22c55e)",
-            display: "flex", justifyContent: "space-between", alignItems: "center"
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span style={{ fontSize: "18px" }}></span>
-              <span style={{ color: "white", fontWeight: "700", fontSize: "15px" }}>
+          {/* Header */}
+          <div className="area-dropdown-header">
+            <div className="area-dropdown-header-content">
+              <span className="area-dropdown-header-icon"></span>
+              <span className="area-dropdown-header-title">
                 Select Delivery Area
               </span>
             </div>
-            <button onClick={() => setIsOpen(false)} style={{
-              background: "rgba(255,255,255,0.2)", border: "none",
-              color: "white", width: "28px", height: "28px",
-              borderRadius: "50%", cursor: "pointer", fontSize: "14px",
-              display: "flex", alignItems: "center", justifyContent: "center"
-            }}>✕</button>
+            <button onClick={() => setIsOpen(false)} className="area-dropdown-close-btn">
+              ✕
+            </button>
           </div>
 
-          <div style={{ padding: "14px" }}>
+          {/* Body */}
+          <div className="area-dropdown-body">
 
-            
-            <button onClick={handleGPS} disabled={gpsLoading} style={{
-              width: "100%", padding: "11px 16px",
-              background: gpsLoading ? "#e5e7eb" : "#f0fdf4",
-              color: gpsLoading ? "#aaa" : "#16a34a",
-              border: "1.5px solid #bbf7d0", borderRadius: "10px",
-              cursor: gpsLoading ? "not-allowed" : "pointer",
-              fontWeight: "600", fontSize: "13px",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              gap: "8px", marginBottom: "12px"
-            }}>
-              <span style={{ fontSize: "16px" }}>{gpsLoading ? "" : ""}</span>
+            {/* GPS Button */}
+            <button onClick={handleGPS} disabled={gpsLoading} className="area-gps-btn">
+              <span className="area-gps-icon">{gpsLoading ? "" : ""}</span>
               {gpsLoading ? "Detecting your location..." : "Use My Current Location (GPS)"}
             </button>
 
-            
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
-              <div style={{ flex: 1, height: "1px", background: "#e5e7eb" }} />
-              <span style={{ fontSize: "12px", color: "#aaa", fontWeight: "600" }}>OR</span>
-              <div style={{ flex: 1, height: "1px", background: "#e5e7eb" }} />
+            {/* Divider */}
+            <div className="area-dropdown-divider">
+              <div className="area-dropdown-divider-line" />
+              <span className="area-dropdown-divider-text">OR</span>
+              <div className="area-dropdown-divider-line" />
             </div>
 
-           
-            <div style={{
-              display: "flex", alignItems: "center", gap: "10px",
-              padding: "10px 14px", border: "1.5px solid #e5e7eb",
-              borderRadius: "10px", background: "#f9fafb", marginBottom: "12px"
-            }}>
-              <span style={{ fontSize: "16px" }}></span>
+            {/* Search Input */}
+            <div className="area-search-container">
+              <span className="area-search-icon"></span>
               <input
                 type="text"
                 placeholder="Search area or city..."
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
-                style={{
-                  border: "none", outline: "none", fontSize: "14px",
-                  width: "100%", background: "transparent", color: "#1a1a1a"
-                }}
+                className="area-search-input"
               />
               {searchText && (
                 <button onClick={() => { setSearchText(""); setServiceStatus(null); setShowMap(false); }}
-                  style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "16px" }}>
+                  className="area-search-clear-btn">
                   ✕
                 </button>
               )}
             </div>
 
-            
+            {/* Results List */}
             {searchText.length >= 2 && (
-              <div style={{ marginBottom: "12px" }}>
+              <div className="area-results-list">
                 {filteredAreas.length === 0 ? (
-                  <p style={{ margin: 0, fontSize: "13px", color: "#888", textAlign: "center", padding: "8px" }}>
+                  <p className="area-no-results">
                     No areas found for "{searchText}"
                   </p>
                 ) : (
@@ -241,22 +212,12 @@ export default function AreaDropdown() {
                     <div
                       key={area._id || i}
                       onClick={() => handleAreaSelect(area)}
-                      style={{
-                        padding: "10px 12px", borderRadius: "8px", cursor: "pointer",
-                        display: "flex", justifyContent: "space-between", alignItems: "center",
-                        marginBottom: "4px", border: "1px solid #f0f0f0", background: "white"
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.background = "#f0fdf4"}
-                      onMouseLeave={e => e.currentTarget.style.background = "white"}
+                      className="area-result-item"
                     >
-                      <span style={{ fontSize: "13px", fontWeight: "600", color: "#1a1a1a" }}>
+                      <span className="area-result-name">
                          {area.name}, {area.city}
                       </span>
-                      <span style={{
-                        fontSize: "11px", padding: "3px 10px", borderRadius: "20px", fontWeight: "700",
-                        background: area.serviceAvailable ? "#dcfce7" : "#fee2e2",
-                        color: area.serviceAvailable ? "#16a34a" : "#dc2626"
-                      }}>
+                      <span className={`area-result-badge ${area.serviceAvailable ? "available" : "unavailable"}`}>
                         {area.serviceAvailable ? "✓ Available" : "✗ Unavailable"}
                       </span>
                     </div>
@@ -265,25 +226,17 @@ export default function AreaDropdown() {
               </div>
             )}
 
-            
+            {/* Service Status */}
             {serviceStatus && (
-              <div style={{
-                padding: "12px 14px", borderRadius: "10px", marginBottom: "12px",
-                background: serviceStatus.available ? "#dcfce7" : "#fee2e2",
-                border: `1px solid ${serviceStatus.available ? "#bbf7d0" : "#fecaca"}`,
-                display: "flex", alignItems: "center", gap: "10px"
-              }}>
-                <span style={{ fontSize: "24px" }}>
+              <div className={`area-service-status ${serviceStatus.available ? "available" : "unavailable"}`}>
+                <span className="area-service-icon">
                   {serviceStatus.available ? "" : ""}
                 </span>
-                <div>
-                  <p style={{
-                    margin: 0, fontSize: "13px", fontWeight: "700",
-                    color: serviceStatus.available ? "#15803d" : "#dc2626"
-                  }}>
+                <div className="area-service-content">
+                  <p className={`area-service-title ${serviceStatus.available ? "available" : "unavailable"}`}>
                     {serviceStatus.available ? "Service Available!" : "Service Not Available"}
                   </p>
-                  <p style={{ margin: 0, fontSize: "12px", color: serviceStatus.available ? "#16a34a" : "#ef4444" }}>
+                  <p className={`area-service-description ${serviceStatus.available ? "available" : "unavailable"}`}>
                     {serviceStatus.available
                       ? ` Delivering to ${serviceStatus.area?.name}, ${serviceStatus.area?.city}`
                       : "We don't deliver here yet."}
@@ -292,53 +245,41 @@ export default function AreaDropdown() {
               </div>
             )}
 
-            
+            {/* Map Section */}
             {showMap && (
-              <div>
-                <p style={{ margin: "0 0 8px", fontSize: "12px", color: "#666", fontWeight: "600" }}>
+              <div className="area-map-section">
+                <p className="area-map-label">
                    Your selected location:
                 </p>
                 <MapContainer
                   center={markerPos}
                   zoom={14}
-                  style={{ width: "100%", height: "160px", borderRadius: "10px" }}
+                  className="area-map-container"
                   key={markerPos.join(",")}
                 >
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                   <Marker position={markerPos} />
                   <MapClickHandler onLocationSelect={checkServiceByCoords} />
                 </MapContainer>
-                
               </div>
             )}
 
           </div>
 
-          
+          {/* Footer */}
           {selectedArea && serviceStatus && (
-            <div style={{
-              padding: "12px 14px", borderTop: "1px solid #f0f0f0",
-              background: selectedArea.serviceAvailable ? "#f0fdf4" : "#fff5f5"
-            }}>
+            <div className={`area-dropdown-footer ${selectedArea.serviceAvailable ? "available" : "unavailable"}`}>
               {selectedArea.serviceAvailable ? (
                 <button
-                  onClick={handleConfirmDelivery}  
+                  onClick={handleConfirmDelivery}
                   disabled={saving}
-                  style={{
-                    width: "100%", padding: "12px",
-                    background: saving ? "#86efac" : "#16a34a",
-                    color: "white", border: "none", borderRadius: "10px",
-                    cursor: saving ? "not-allowed" : "pointer",
-                    fontWeight: "700", fontSize: "14px",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: "8px"
-                  }}>
+                  className="area-confirm-btn"
+                >
                   {saving ? " Saving..." : ` Deliver to ${selectedArea.name}, ${selectedArea.city}`}
                 </button>
               ) : (
-                <div style={{ textAlign: "center", padding: "8px" }}>
-                  <p style={{ margin: 0, fontSize: "13px", color: "#dc2626", fontWeight: "600" }}>
-                    Select a different available area
-                  </p>
+                <div className="area-unavailable-message">
+                  <p>Select a different available area</p>
                 </div>
               )}
             </div>

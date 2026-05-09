@@ -1,8 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import Groq from "groq-sdk";
-import dotenv from "dotenv";
-dotenv.config();
 
 const router = express.Router();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });

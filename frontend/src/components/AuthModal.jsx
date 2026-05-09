@@ -136,110 +136,69 @@ export default function AuthModal({ close, onLogin }) {
     setLoading(false);
   };
 
-  // ── Styles ──
-  const fieldWrap = { marginBottom: "16px" };
-  const fieldLabel = { fontSize: "13px", color: "#666", marginBottom: "6px", display: "block" };
-  const fieldInput = {
-    width: "100%", padding: "14px 16px",
-    border: "1.5px solid #e0e0e0", borderRadius: "6px",
-    fontSize: "15px", color: "#1a1a1a", outline: "none",
-    boxSizing: "border-box", background: "white",
-    fontFamily: "inherit",
-  };
-  const errorText = {
-    color: "#dc2626", fontSize: "13px",
-    margin: "0 0 14px", lineHeight: "1.5",
-  };
-  const blueBtn = (disabled) => ({
-    width: "100%", padding: "15px",
-    background: disabled ? "#90caf9" : "#1976d2",
-    color: "white", border: "none", borderRadius: "6px",
-    fontSize: "14px", fontWeight: "700", letterSpacing: "1px",
-    cursor: disabled ? "not-allowed" : "pointer",
-    marginBottom: "12px",
-  });
-
   return (
     <>
       {/* Overlay */}
-      <div onClick={close} style={{
-        position: "fixed", inset: 0,
-        background: "rgba(0,0,0,0.45)",
-        zIndex: 2000, backdropFilter: "blur(2px)",
-      }} />
+      <div onClick={close} className="auth-modal-overlay" />
 
       {/* Modal */}
-      <div style={{
-        position: "fixed", top: "50%", left: "50%",
-        transform: "translate(-50%,-50%)",
-        width: "min(420px, 95vw)",
-        background: "white", borderRadius: "12px",
-        zIndex: 2001,
-        boxShadow: "0 20px 60px rgba(0,0,0,0.18)",
-        padding: "32px 28px 28px",
-        position: "fixed",
-      }}>
+      <div className="auth-modal">
 
         {/* Invisible reCAPTCHA */}
         <div id="recaptcha-container" />
 
         {/* Close */}
-        <button onClick={close} style={{
-          position: "absolute", top: "14px", right: "16px",
-          background: "none", border: "none",
-          fontSize: "20px", color: "#999", cursor: "pointer", lineHeight: 1,
-        }}>×</button>
+        <button onClick={close} className="auth-modal-close">×</button>
 
         {/* Title */}
-        <h2 style={{ margin: "0 0 24px", fontSize: "24px", fontWeight: "700", color: "#1a1a1a" }}>
+        <h2 className="auth-modal-title">
           {isLogin ? "Login" : "Signup"}
         </h2>
 
         {/* ── Phone Field ── */}
-        <div style={fieldWrap}>
-          <label style={fieldLabel}>Phone</label>
+        <div className="field-wrap">
+          <label className="field-label">Phone</label>
           <input
             type="tel"
             placeholder="Enter phone number"
             value={phone}
             onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
             disabled={otpVerified}
-            style={{ ...fieldInput, background: otpVerified ? "#f9fafb" : "white" }}
+            className="field-input"
           />
         </div>
 
         {/* ── SEND OTP — before sent ── */}
         {!otpSent && !otpVerified && (
           <>
-            <button onClick={handleSendOTP} disabled={loading} style={blueBtn(loading)}>
+            <button onClick={handleSendOTP} disabled={loading} className="blue-btn">
               {loading ? "SENDING..." : "SEND OTP"}
             </button>
-            {firebaseError && <p style={errorText}>{firebaseError}</p>}
+            {firebaseError && <p className="error-text">{firebaseError}</p>}
           </>
         )}
 
         {/* ── OTP Field — after sent, before verified ── */}
         {otpSent && !otpVerified && (
           <>
-            <div style={fieldWrap}>
-              <label style={fieldLabel}>Enter OTP</label>
+            <div className="field-wrap">
+              <label className="field-label">Enter OTP</label>
               <input
                 type="tel"
                 placeholder="6-digit OTP"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 autoFocus
-                style={fieldInput}
+                className="field-input"
               />
             </div>
-            {firebaseError && <p style={errorText}>{firebaseError}</p>}
-            <button onClick={handleVerifyOTP} disabled={loading} style={blueBtn(loading)}>
+            {firebaseError && <p className="error-text">{firebaseError}</p>}
+            <button onClick={handleVerifyOTP} disabled={loading} className="blue-btn">
               {loading ? "VERIFYING..." : "VERIFY OTP"}
             </button>
-            <p onClick={handleSendOTP} style={{
-              fontSize: "13px", color: "#1976d2",
-              cursor: "pointer", textAlign: "center", margin: "0 0 16px",
-            }}>Resend OTP</p>
+            <p onClick={handleSendOTP} className="resend-otp-link">
+              Resend OTP
+            </p>
           </>
         )}
 
@@ -247,75 +206,69 @@ export default function AuthModal({ close, onLogin }) {
         {otpVerified && (
           <>
             {/* Firebase error still show karo (info mate) */}
-            {firebaseError && <p style={errorText}>{firebaseError}</p>}
+            {firebaseError && <p className="error-text">{firebaseError}</p>}
 
             {/* Register / Login Toggle */}
-            <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+            <div className="tab-container">
               {["Register", "Login"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => { setIsLogin(tab === "Login"); setServerError(""); }}
-                  style={{
-                    flex: 1, padding: "10px",
-                    background: (isLogin === (tab === "Login")) ? "#e3f2fd" : "#f5f5f5",
-                    border: (isLogin === (tab === "Login")) ? "2px solid #1976d2" : "2px solid transparent",
-                    borderRadius: "6px", fontSize: "14px",
-                    fontWeight: "700",
-                    color: (isLogin === (tab === "Login")) ? "#1976d2" : "#888",
-                    cursor: "pointer",
-                  }}
-                >{tab}</button>
+                  className={`tab-button ${isLogin === (tab === "Login") ? "active" : ""}`}
+                >
+                  {tab}
+                </button>
               ))}
             </div>
 
             {/* Name — Register only */}
             {!isLogin && (
-              <div style={fieldWrap}>
-                <label style={fieldLabel}>Name</label>
+              <div className="field-wrap">
+                <label className="field-label">Name</label>
                 <input
                   type="text"
                   placeholder="Your full name"
                   value={userData.name}
                   onChange={(e) => setUserData({ ...userData, name: e.target.value })}
                   autoFocus
-                  style={fieldInput}
+                  className="field-input"
                 />
               </div>
             )}
 
             {/* Email */}
-            <div style={fieldWrap}>
-              <label style={fieldLabel}>Email</label>
+            <div className="field-wrap">
+              <label className="field-label">Email</label>
               <input
                 type="email"
                 placeholder="Enter email"
                 value={userData.email}
                 onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                style={fieldInput}
+                className="field-input"
               />
             </div>
 
             {/* Password */}
-            <div style={fieldWrap}>
-              <label style={fieldLabel}>Password</label>
+            <div className="field-wrap">
+              <label className="field-label">Password</label>
               <input
                 type="password"
                 placeholder="Enter password"
                 value={userData.password}
                 onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                 onKeyDown={(e) => e.key === "Enter" && (isLogin ? handleLogin() : handleRegister())}
-                style={fieldInput}
+                className="field-input"
               />
             </div>
 
             {/* Server error */}
-            {serverError && <p style={errorText}>{serverError}</p>}
+            {serverError && <p className="error-text">{serverError}</p>}
 
             {/* Submit */}
             <button
               onClick={isLogin ? handleLogin : handleRegister}
               disabled={loading}
-              style={blueBtn(loading)}
+              className="blue-btn"
             >
               {loading
                 ? (isLogin ? "LOGGING IN..." : "REGISTERING...")
