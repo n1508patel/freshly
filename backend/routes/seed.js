@@ -630,10 +630,10 @@ ABOUT THE BRAND: Lay's always brings best flavours and quality`,
 
  await Product.collection.drop().catch(()=>{});
 
-    // new products insert
+  
     await Product.collection.insertMany(newProducts, { writeConcern: { w: 1 } });
 
-    res.send("Database Reset & Products Added ✅");
+    res.send("Database Reset & Products Added ");
 
   } catch (error) {
     console.log("seed error:", error);
