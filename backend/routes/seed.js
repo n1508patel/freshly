@@ -627,17 +627,11 @@ ABOUT THE BRAND: Lay's always brings best flavours and quality`,
     ]
   }
 ];
-for (let product of newProducts) {
-  await Product.updateOne(
-    { name: product.name },   // same name check karse
-    product,                  // navo data
-    { upsert: true }          // hoy to update, navo hoy to insert
-  );
-}
- await Product.deleteMany({});
+
+ await Product.collection.drop().catch(()=>{});
 
     // new products insert
-    await Product.insertMany(newProducts);
+    await Product.collection.insertMany(newProducts, { writeConcern: { w: 1 } });
 
     res.send("Database Reset & Products Added ✅");
 
