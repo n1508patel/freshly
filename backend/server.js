@@ -21,12 +21,11 @@ app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI,{ writeConcern: { w: 1 } })
   .then(() => {
-    console.log("✅ MongoDB Connected");
-    console.log("📁 Database:", mongoose.connection.name);
-    // This MUST print "freshly" — if it prints "test", your URI is wrong
+    console.log(" MongoDB Connected");
+    console.log(" Database:", mongoose.connection.name);
   })
   .catch((err) => {
-    console.error("❌ MongoDB connection failed:", err.message);
+    console.error(" MongoDB connection failed:", err.message);
   });
 
 app.use("/api/seed", seedRoutes);
@@ -40,10 +39,10 @@ app.use("/api", aiSearchRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/riders", riderRoutes);
 app.get("/", (req, res) => {
-  res.send("🚀 Grocery Backend Running...");
+  res.send(" Grocery Backend Running...");
 });
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });
