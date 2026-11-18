@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Footer from "./components/Footer";
 import SearchResults from "./pages/SearchResults";
 import ProductDetail from "./pages/ProductDetail";
-import RiderApp from "./pages/RiderApp";
+import RiderApp from "./pages/riderApp";
 import Profile from "./components/Profile";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
