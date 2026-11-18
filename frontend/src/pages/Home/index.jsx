@@ -11,12 +11,31 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/products")
-      .then(res => res.json())
-      .then(data => { setProducts(data); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
+  const fetchProducts = async () => {
+    try {
+      const API_URL = import.meta.env.VITE_API_URL;
 
+      const response = await fetch(`${API_URL}/products`);
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      setProducts(
+        Array.isArray(data) ? data : data.products || []
+      );
+
+    } catch (error) {
+      console.error("Home products error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
   const snacksAndBeverages = products.filter(p =>
     p.category === "Snacks" || p.category === "Beverages"
   );
@@ -273,11 +292,19 @@ const ProductCard = ({ product }) => {
         height: "180px", display: "flex", alignItems: "center", justifyContent: "center"
       }}>
         <img
-          src={product.imgs?.[0]}
-          alt={product.name}
-          style={{ maxWidth: "140px", maxHeight: "140px", objectFit: "contain" }}
-          onError={e => e.target.src = "https://via.placeholder.com/140"}
-        />
+  src={product.imgs?.[0] || "/placeholder.png"}
+  alt={product.name}
+  loading="lazy"
+  style={{
+    width: "140px",
+    height: "140px",
+    objectFit: "contain"
+  }}
+  onError={(e) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = "/placeholder.png";
+  }}
+/>
       </div>
 
       {/* Info */}
